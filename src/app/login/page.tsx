@@ -1,3 +1,4 @@
+"use client";
 import {
   Avatar,
   Box,
@@ -12,34 +13,17 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 import React from "react";
-
-function Copyright(props: any) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
+import { Copyright } from "../register/CopyRight";
 
 const page = () => {
-  // const handleSubmit = (event: any) => {
-  //   event.preventDefault();
-  //   const data = new FormData(event.currentTarget);
-  //   console.log({
-  //     email: data.get("email"),
-  //     password: data.get("password"),
-  //   });
-  // };
+  const handleSubmit = (event: any) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    console.log({
+      email: data.get("email"),
+      password: data.get("password"),
+    });
+  };
   return (
     <div>
       {" "}
@@ -53,15 +37,13 @@ const page = () => {
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            {/* <LockOutlinedIcon /> */}
-          </Avatar>
+          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}></Avatar>
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
           <Box
             component="form"
-            // onSubmit={handleSubmit}
+            onSubmit={handleSubmit}
             noValidate
             sx={{ mt: 1 }}
           >
@@ -85,10 +67,6 @@ const page = () => {
               id="password"
               autoComplete="current-password"
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
             <Button
               type="submit"
               fullWidth
@@ -102,7 +80,7 @@ const page = () => {
                 <Link href="#">Forgot password?</Link>
               </Grid>
               <Grid item>
-                <Link href="#">{"Don't have an account? Sign Up"}</Link>
+                <Link href="/register">{"Don't have an account? Sign Up"}</Link>
               </Grid>
             </Grid>
           </Box>

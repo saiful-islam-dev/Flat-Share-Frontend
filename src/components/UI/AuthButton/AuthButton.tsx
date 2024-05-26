@@ -1,6 +1,6 @@
 // import { logoutUser } from "@/services/actions/logoutUser";
 // import { getUserInfo } from "@/services/auth.services";
-import { Button } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -12,11 +12,14 @@ const AuthButton = () => {
   //     logoutUser(router);
   //   };
   return (
-    <>
+    <Stack direction="row" spacing={2}>
+      <Button component={Link} href="/login">
+        Register
+      </Button>
       <Button component={Link} href="/login">
         Login
       </Button>
-    </>
+    </Stack>
   );
 };
 

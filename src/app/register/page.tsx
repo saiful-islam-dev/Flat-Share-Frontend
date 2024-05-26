@@ -1,45 +1,27 @@
+"use client";
 import React from "react";
 import {
   Avatar,
   Box,
   Button,
-  Checkbox,
   Container,
   CssBaseline,
-  FormControlLabel,
   Grid,
   TextField,
   Typography,
 } from "@mui/material";
 import Link from "next/link";
-
-function Copyright(props: any) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
+import { Copyright } from "./CopyRight";
 
 const page = () => {
-  // const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-  //   event.preventDefault();
-  //   const data = new FormData(event.currentTarget);
-  //   console.log({
-  //     email: data.get("email"),
-  //     password: data.get("password"),
-  //   });
-  // };
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    console.log({
+      email: data.get("email"),
+      password: data.get("password"),
+    });
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -52,38 +34,21 @@ const page = () => {
           alignItems: "center",
         }}
       >
-        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-          {/* <LockOutlinedIcon /> */}
-        </Avatar>
+        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}></Avatar>
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <Box
-          component="form"
-          noValidate
-          //  onSubmit={handleSubmit}
-          sx={{ mt: 3 }}
-        >
+        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12}>
               <TextField
                 autoComplete="given-name"
-                name="firstName"
+                name="Full Name"
                 required
                 fullWidth
-                id="firstName"
-                label="First Name"
+                id="fullName"
+                label="Full Name"
                 autoFocus
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
-                autoComplete="family-name"
               />
             </Grid>
             <Grid item xs={12}>
@@ -107,12 +72,6 @@ const page = () => {
                 autoComplete="new-password"
               />
             </Grid>
-            <Grid item xs={12}>
-              <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I want to receive inspiration, marketing promotions and updates via email."
-              />
-            </Grid>
           </Grid>
           <Button
             type="submit"
@@ -123,8 +82,8 @@ const page = () => {
             Sign Up
           </Button>
           <Grid container justifyContent="flex-end">
-            <Grid item>
-              <Link href="#">Already have an account? Sign in</Link>
+            <Grid item sx={{ mr: 2 }}>
+              <Link href="/login">Already have an account? Sign in</Link>
             </Grid>
           </Grid>
         </Box>
