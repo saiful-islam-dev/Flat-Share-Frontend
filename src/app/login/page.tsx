@@ -3,10 +3,8 @@ import {
   Avatar,
   Box,
   Button,
-  Checkbox,
   Container,
   CssBaseline,
-  FormControlLabel,
   Grid,
   TextField,
   Typography,
@@ -14,19 +12,40 @@ import {
 import Link from "next/link";
 import React from "react";
 import { Copyright } from "../register/CopyRight";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { userLogin } from "@/services/actions/userLogin";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
-const page = () => {
-  const handleSubmit = (event: any) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+export type TFormData = {
+  email: string;
+  password: string;
+};
+
+const LoginPage = () => {
+  const router = useRouter();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<TFormData>();
+
+  const onSubmit: SubmitHandler<TFormData> = async (data) => {
+    try {
+      const res = await userLogin(data);
+      if (res?.data?.accessToken) {
+        toast.success(res?.message);
+        // storeUserInfo({ accessToken: res?.data?.accessToken });
+        router.push("/");
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
+
   return (
-    <div>
-      {" "}
+    <Box>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -43,7 +62,7 @@ const page = () => {
           </Typography>
           <Box
             component="form"
-            onSubmit={handleSubmit}
+            onSubmit={handleSubmit(onSubmit)}
             noValidate
             sx={{ mt: 1 }}
           >
@@ -53,19 +72,19 @@ const page = () => {
               fullWidth
               id="email"
               label="Email Address"
-              name="email"
               autoComplete="email"
               autoFocus
+              {...register("email")}
             />
             <TextField
               margin="normal"
               required
               fullWidth
-              name="password"
               label="Password"
               type="password"
               id="password"
               autoComplete="current-password"
+              {...register("password")}
             />
             <Button
               type="submit"
@@ -87,8 +106,8 @@ const page = () => {
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
-    </div>
+    </Box>
   );
 };
 
-export default page;
+export default LoginPage;

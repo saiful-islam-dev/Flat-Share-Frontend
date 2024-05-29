@@ -8,6 +8,7 @@ import {
 import MailIcon from "@mui/icons-material/Mail";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import { usePathname } from "next/navigation";
+import { DrawerItem } from "@/type";
 
 type IProps = {
   item: DrawerItem;

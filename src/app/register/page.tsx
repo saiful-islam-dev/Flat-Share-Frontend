@@ -12,15 +12,45 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 import { Copyright } from "./CopyRight";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { userRegister } from "@/services/actions/userRegister";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { userLogin } from "@/services/actions/userLogin";
 
-const page = () => {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+export interface TFormData {
+  name: string;
+  email: string;
+  password: string;
+  username: string;
+  contactNumber: string;
+}
+
+const RegisterPage = () => {
+  const router = useRouter();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<TFormData>();
+
+  const onSubmit: SubmitHandler<TFormData> = async (values: TFormData) => {
+    try {
+      const res = await userRegister(values);
+      if (res?.data?.id) {
+        toast.success(res?.message);
+        const result = await userLogin({
+          email: values.email,
+          password: values.password,
+        });
+        if (result?.data?.accessToken) {
+          // storeUserInfo({ accessToken: result?.data?.accessToken });
+          router.push("/dashboard");
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -38,17 +68,33 @@ const page = () => {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+        <Box
+          component="form"
+          noValidate
+          onSubmit={handleSubmit(onSubmit)}
+          sx={{ mt: 3 }}
+        >
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
                 autoComplete="given-name"
-                name="Full Name"
                 required
                 fullWidth
-                id="fullName"
+                id="name"
                 label="Full Name"
                 autoFocus
+                {...register("name")}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth
+                id="username"
+                label="User Name"
+                type="text"
+                autoComplete="username"
+                {...register("username")}
               />
             </Grid>
             <Grid item xs={12}>
@@ -56,20 +102,31 @@ const page = () => {
                 required
                 fullWidth
                 id="email"
+                type="email"
                 label="Email Address"
-                name="email"
                 autoComplete="email"
+                {...register("email")}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
                 required
                 fullWidth
-                name="password"
                 label="Password"
                 type="password"
                 id="password"
-                autoComplete="new-password"
+                autoComplete="password"
+                {...register("password")}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth
+                label="ContactNumber"
+                type="text"
+                id="contactNumber"
+                {...register("contactNumber")}
               />
             </Grid>
           </Grid>
@@ -93,4 +150,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default RegisterPage;

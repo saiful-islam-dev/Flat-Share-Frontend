@@ -42,10 +42,9 @@ const SideBar = () => {
         </Typography>
       </Stack>
       <List>
-        {Array.isArray(drawerItems) &&
-          drawerItems.map((item, index) => (
-            <SidebarItem key={index} item={item} />
-          ))}
+        {/* {drawerItems.map((item, index) => (
+          <SidebarItem key={index} item={item} />
+        ))} */}
       </List>
     </Box>
   );
