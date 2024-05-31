@@ -2,19 +2,19 @@ import { Box, List, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 // import assets from "@/assets";
 import Link from "next/link";
-// import { UserRole } from "@/types";
 import SidebarItem from "./SidebarItem";
-// import { getUserInfo } from "@/services/auth.services";
+import { getUserInfo } from "@/services/auth.services";
 import { useEffect, useState } from "react";
 import { drawerItems } from "@/utils/drawerItems";
+import { UserRole } from "@/type";
 
 const SideBar = () => {
-  // const [userRole, setUserRole] = useState("");
+  const [userRole, setUserRole] = useState("");
 
-  // useEffect(() => {
-  //   const { role } = getUserInfo() as any;
-  //   setUserRole(role);
-  // }, []);
+  useEffect(() => {
+    const { role } = getUserInfo() as any;
+    setUserRole(role);
+  }, []);
 
   return (
     <Box>
@@ -38,13 +38,13 @@ const SideBar = () => {
             cursor: "pointer",
           }}
         >
-          PH Health Care
+          Flat Share
         </Typography>
       </Stack>
       <List>
-        {/* {drawerItems.map((item, index) => (
+        {drawerItems(userRole as UserRole).map((item, index) => (
           <SidebarItem key={index} item={item} />
-        ))} */}
+        ))}
       </List>
     </Box>
   );

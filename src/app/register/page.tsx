@@ -17,6 +17,7 @@ import { userRegister } from "@/services/actions/userRegister";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { userLogin } from "@/services/actions/userLogin";
+import { storeUserInfo } from "@/services/auth.services";
 
 export interface TFormData {
   name: string;
@@ -44,7 +45,7 @@ const RegisterPage = () => {
           password: values.password,
         });
         if (result?.data?.accessToken) {
-          // storeUserInfo({ accessToken: result?.data?.accessToken });
+          storeUserInfo({ accessToken: result?.data?.accessToken });
           router.push("/dashboard");
         }
       }

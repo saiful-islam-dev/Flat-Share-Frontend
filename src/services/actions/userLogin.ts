@@ -3,7 +3,7 @@
 import { TFormData } from "@/app/login/page";
 
 export const userLogin = async (data: TFormData) => {
-  const res = await fetch(`http://localhost:5000/api/v1/auth/login`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
